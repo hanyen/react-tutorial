@@ -2,7 +2,7 @@ class Square extends React.Component {
   //We can now delete the constructor from Square; we won't need it any more. 
   //In fact, React supports a simpler syntax called stateless functional components 
   //for component types like Square that only consist of a render method.
-  
+
     // constructor() {
     //   super();
     //   this.state = {
@@ -36,6 +36,7 @@ class Board extends React.Component {
     super();
     this.state = {
       squares: Array(9).fill(null),
+      xIsNext: true,
     };
   }
   renderSquare(i) {
@@ -48,7 +49,7 @@ class Board extends React.Component {
     return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
   }
   render() {
-    const status = 'Next player: X';
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     return (
       <div>
         <div className="status">{status}</div>
@@ -77,9 +78,13 @@ class Board extends React.Component {
   //defined handleClick yet. Add it to the Board class:
   handleClick(i) {
     //Use the .slice() operator to copy the squares array prior to making changes and to prevent mutating the existing array.
+    //Each time we move we shall toggle xIsNext by flipping the boolean value and saving the state. Now update our handleClick function to flip the value of xIsNext.
     const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({squares: squares});
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    });
   }  
   //The biggest benefit of immutability in React comes when you build simple pure 
   //components. Since immutable data can more easily determine if changes have been 
