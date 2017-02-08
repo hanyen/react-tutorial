@@ -49,7 +49,16 @@ class Board extends React.Component {
     return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
   }
   render() {
-    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    //call calculateWinner helper function in Board's render function to check if 
+    //anyone has won the game and make the status text show "Winner: [X/O]" when someone wins:
+    const winner = calculateWinner(this.state.squares);
+    let status;
+    if (winner) {
+      status = 'Winner: ' + winner;
+    } else {
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O')
+    }
+    // const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     return (
       <div>
         <div className="status">{status}</div>
@@ -80,6 +89,10 @@ class Board extends React.Component {
     //Use the .slice() operator to copy the squares array prior to making changes and to prevent mutating the existing array.
     //Each time we move we shall toggle xIsNext by flipping the boolean value and saving the state. Now update our handleClick function to flip the value of xIsNext.
     const squares = this.state.squares.slice();
+    //change handleClick to return early and ignore the click if someone has already won the game or if a square is already filled
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    };
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       squares: squares,
