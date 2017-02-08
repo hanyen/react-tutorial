@@ -1,10 +1,14 @@
 class Square extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      value: null,
-    };
-  }
+  //We can now delete the constructor from Square; we won't need it any more. 
+  //In fact, React supports a simpler syntax called stateless functional components 
+  //for component types like Square that only consist of a render method.
+  
+    // constructor() {
+    //   super();
+    //   this.state = {
+    //     value: null,
+    //   };
+    // }
   
   //Whenever this.setState is called, an update to the component is scheduled, 
   //causing React to merge in the passed state update and rerender the component 
