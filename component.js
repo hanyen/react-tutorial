@@ -5,6 +5,11 @@ class Square extends React.Component {
       value: null,
     };
   }
+  
+  //Whenever this.setState is called, an update to the component is scheduled, 
+  //causing React to merge in the passed state update and rerender the component 
+  //along with its descendants. When the component rerenders, this.state.value 
+  //will be 'X' so you'll see an X in the grid.
   render() {
     return (
       <button className="square" onClick={() => this.setState({value: 'X'})}>
