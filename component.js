@@ -12,16 +12,32 @@ class Square extends React.Component {
   //will be 'X' so you'll see an X in the grid.
   render() {
     return (
-      <button className="square" onClick={() => this.setState({value: 'X'})}>
-        {this.state.value}
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
       </button>
     );
   }
 }
 
+//Goal: To check if someone has won, we'll need to have the value of all 9 squares in 
+//one place, rather than split up across the Square components.
+
+//Solution: When you want to aggregate data from multiple children or to have two child 
+//components communicate with each other, move the state upwards so that it 
+//lives in the parent component. The parent can then pass the state back down 
+//to the children via props, so that the child components are always in sync 
+//with each other and with the parent.
 class Board extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      squares: Array(9).fill(null),
+    };
+  }
   renderSquare(i) {
-    return <Square value={i} />;
+    //Now we're passing down two props from Board to Square: value and onClick. 
+    //The latter is a function that Square can call.
+    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
   }
   render() {
     const status = 'Next player: X';
@@ -45,6 +61,16 @@ class Board extends React.Component {
         </div>
       </div>
     );
+  }
+  // when the square is clicked, it calls the onClick function that was passed 
+  //by the parent. The onClick doesn't have any special meaning here, but it's 
+  //popular to name handler props starting with on and their implementations with 
+  //handle. Try clicking a square – you should get an error because we haven't 
+  //defined handleClick yet. Add it to the Board class:
+  handleClick(i) {
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({squares: squares});
   }
 }
 
