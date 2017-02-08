@@ -72,10 +72,14 @@ class Board extends React.Component {
   //handle. Try clicking a square – you should get an error because we haven't 
   //defined handleClick yet. Add it to the Board class:
   handleClick(i) {
+    //Use the .slice() operator to copy the squares array prior to making changes and to prevent mutating the existing array.
     const squares = this.state.squares.slice();
     squares[i] = 'X';
     this.setState({squares: squares});
-  }
+  }  
+  //The biggest benefit of immutability in React comes when you build simple pure 
+  //components. Since immutable data can more easily determine if changes have been 
+  //made it also helps to determine when a component requires being re-rendered.
 }
 
 class Game extends React.Component {
