@@ -37,6 +37,10 @@ class Board extends React.Component {
   renderSquare(i) {
     //Now we're passing down two props from Board to Square: value and onClick. 
     //The latter is a function that Square can call.
+
+    //Square no longer keeps its own state; it receives its value from its parent 
+    //Board and informs its parent when it's clicked. We call components like this 
+    //controlled components.
     return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
   }
   render() {
